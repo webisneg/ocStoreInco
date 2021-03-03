@@ -175,7 +175,7 @@ class SeoPro {
 				unset($data);
 				$data['route'] = $route;
 				
-				if ($path && $this->config->get('config_seo_url_include_path')) {
+				if (!empty($path)) {
 					$data['path'] = $path;
 				}	
 				
