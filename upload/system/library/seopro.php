@@ -156,7 +156,7 @@ class SeoPro {
 				$route = 'product/product';
 				$path = '';
 				$product_id = $data['product_id'];
-				if (isset($data['path'])) {
+				if ($this->config->get('config_seo_url_include_path')) {
 					$path = $this->getCategoryByProduct($product_id);
 				}
 				
