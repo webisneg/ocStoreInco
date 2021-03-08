@@ -15,6 +15,7 @@ class Document {
 	private $robots;
 	private $description;
 	private $keywords;
+
 	private $links = array();
 	private $styles = array();
 	private $scripts = array();
@@ -113,8 +114,8 @@ class Document {
 	 * @param	string	$rel
 	 * @param	string	$media
      */
-	public function addStyle($href, $rel = 'stylesheet', $media = 'screen') {
-		$this->styles[$href] = array(
+	public function addStyle($href, $rel = 'stylesheet', $media = 'screen', $position = 'header') {
+		$this->styles[$position][$href] = array(
 			'href'  => $href,
 			'rel'   => $rel,
 			'media' => $media
@@ -126,30 +127,34 @@ class Document {
 	 * 
 	 * @return	array
      */
-	public function getStyles() {
-		return $this->styles;
+	public function getStyles($position = 'header') {
+		if (isset($this->styles[$position])) {
+			return $this->styles[$position];
+		} else {
+			return array();
+		}
 	}
 
 	/**
      * 
      *
      * @param	string	$href
-	 * @param	string	$postion
+	 * @param	string	$position
      */
-	public function addScript($href, $postion = 'header') {
-		$this->scripts[$postion][$href] = $href;
+	public function addScript($href, $position = 'header') {
+		$this->scripts[$position][$href] = $href;
 	}
 
 	/**
      * 
      *
-     * @param	string	$postion
+     * @param	string	$position
 	 * 
 	 * @return	array
      */
-	public function getScripts($postion = 'header') {
-		if (isset($this->scripts[$postion])) {
-			return $this->scripts[$postion];
+	public function getScripts($position = 'header') {
+		if (isset($this->scripts[$position])) {
+			return $this->scripts[$position];
 		} else {
 			return array();
 		}

@@ -13,6 +13,10 @@ class ControllerExtensionPaymentG2APay extends Controller {
 		$this->load->model('account/order');
 		$this->load->model('extension/payment/g2apay');
 
+		if(!isset($this->session->data['order_id'])) {
+			return false;
+		}
+
 		$order_info = $this->model_checkout_order->getOrder($this->session->data['order_id']);
 
 		$order_data = array();
@@ -102,11 +106,11 @@ class ControllerExtensionPaymentG2APay extends Controller {
 		$this->model_extension_payment_g2apay->logger($fields);
 
 		if ($response_data === false) {
-			$this->response->redirect($this->url->link('extension/payment/failure', '', true));
+			$this->response->redirect($this->url->link('checkout/failure', '', true));
 		}
 
 		if (strtolower($response_data->status) != 'ok') {
-			$this->response->redirect($this->url->link('extension/payment/failure', '', true));
+			$this->response->redirect($this->url->link('checkout/failure', '', true));
 		}
 
 		$this->model_extension_payment_g2apay->addG2aOrder($order_info);
