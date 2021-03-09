@@ -603,7 +603,7 @@ class ControllerMarketplaceMarketplace extends Controller {
 				'href' => $this->url->link('marketplace/marketplace', 'user_token=' . $this->session->data['user_token'] . $url, true)
 			);
 
-			$this->load->helper('bbcode');
+			$this->load->helper('HTMLPurifier.auto');
 
 			$data['banner'] = $response_info['banner'];
 

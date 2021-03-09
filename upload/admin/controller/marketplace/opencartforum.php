@@ -98,14 +98,15 @@ class ControllerMarketplaceOpencartforum extends Controller {
 			'text' => $this->language->get('heading_title'),
 			'href' => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . $url, true)
 		);
-		
+
 		$time = time();
-		
+
 		// We create a hash from the data in a similar method to how amazon does things.
 
 		$url .= '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . urlencode(VERSION);
 		$url .= '&time=' . $time;
+        $url .= '&language=' . $this->language->get('code');
 
 		if (isset($this->request->get['filter_search'])) {
 			$url .= '&filter_search=' . urlencode($this->request->get['filter_search']);
@@ -146,7 +147,6 @@ class ControllerMarketplaceOpencartforum extends Controller {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
 		curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
 
 		$response = curl_exec($curl);
 
@@ -156,7 +156,7 @@ class ControllerMarketplaceOpencartforum extends Controller {
 
 		$response_info = json_decode($response, true);
 
-		$extension_total = $response_info['extension_total'];
+		$extension_total = strip_tags($response_info['extension_total']);
 
 		$url  = '';
 
@@ -194,15 +194,25 @@ class ControllerMarketplaceOpencartforum extends Controller {
 
 		$data['promotions'] = array();
 
-		if ($response_info['promotions'] && $page == 1) {
-			foreach ($response_info['promotions'] as $result) {
+        $this->load->helper('HTMLPurifier/Bootstrap');
+
+        HTMLPurifier_Bootstrap::registerAutoload();
+
+        $config = HTMLPurifier_Config::createDefault();
+
+        $response_info = $this->strip($response_info, $config);
+
+        $promotions = $this->strip($response_info['promotions'], $config);
+
+        if ($promotions && $page == 1) {
+            foreach ($promotions as $result) {
 				$data['promotions'][] = array(
-					'name'         => $result['name'],
-					'description'  => $result['description'],
-					'image'        => $result['image'],
-					'license'      => $result['license'],
-					'price'        => $result['price'],
-					'rating'       => $result['rating'],
+                    'name' => $result['name'],
+                    'description' => $result['description'],
+                    'image' => $result['image'],
+                    'license' => $result['license'],
+                    'price' => $result['price'],
+                    'rating' => $result['rating'],
 					'rating_total' => $result['rating_total'],
 					'href'         => $this->url->link('marketplace/opencartforum/info', 'user_token=' . $this->session->data['user_token'] . '&extension_id=' . $result['extension_id'] . $url, true)
 				);
@@ -211,8 +221,10 @@ class ControllerMarketplaceOpencartforum extends Controller {
 
 		$data['extensions'] = array();
 
-		if ($response_info['extensions']) {
-			foreach ($response_info['extensions'] as $result) {
+        $extensions = $this->strip($response_info['extensions'], $config);
+
+		if ($extensions) {
+			foreach ($extensions as $result) {
 				$data['extensions'][] = array(
 					'name'         => $result['name'],
 					'description'  => $result['description'],
@@ -500,6 +512,12 @@ class ControllerMarketplaceOpencartforum extends Controller {
 			'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_license=paid' . $url, true)
 		);
 
+        $data['licenses'][] = array(
+            'text'  => $this->language->get('text_purchased'),
+            'value' => 'purchased',
+            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_license=purchased' . $url, true)
+        );
+
 		// Sort
 		$url = '';
 
@@ -592,7 +610,7 @@ class ControllerMarketplaceOpencartforum extends Controller {
 		}
 
 		$pagination = new Pagination();
-		$pagination->total = $extension_total;
+		$pagination->total = (int)$extension_total;
 		$pagination->page = $page;
 		$pagination->limit = 12;
 		$pagination->url = $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . $url . '&page={page}', true);
@@ -620,11 +638,13 @@ class ControllerMarketplaceOpencartforum extends Controller {
 			$extension_id = 0;
 		}
 
+        $this->document->setTitle($this->language->get('heading_title'));
 		$time = time();
 		$url = '&domain=' . $this->request->server['HTTP_HOST'];
 		$url .= '&version=' . urlencode(VERSION);
 		$url .= '&extension_id=' . $extension_id;
 		$url .= '&time=' . $time;
+		$url .= '&language=' . $this->language->get('code');
 
 		$curl = curl_init(OPENCARTFORUM_SERVER . 'marketplace/api/info?' . $url);
 
@@ -632,7 +652,6 @@ class ControllerMarketplaceOpencartforum extends Controller {
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
 		curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
 
 		$response = curl_exec($curl);
 
@@ -690,49 +709,34 @@ class ControllerMarketplaceOpencartforum extends Controller {
 				'href' => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . $url, true)
 			);
 
-			$this->load->helper('bbcode');
-
-			$data['banner'] = $response_info['banner'];
-
-			$data['extension_id'] = (int)$this->request->get['extension_id'];
-            $data['extension_url'] = $response_info['extension_url'];
-            $data['cfields'] = $response_info['cfields'];
-			$data['name'] = $response_info['name'];
-			$data['description'] = $response_info['description'];
-			$data['documentation'] = $response_info['documentation'];
-			$data['changelog'] = $response_info['changelog'];
-			$data['price'] = $response_info['price'];
-			$data['license'] = $response_info['license'];
-			$data['license_period'] = $response_info['license_period'];
-			$data['purchased'] = $response_info['purchased'];
-			$data['rating'] = $response_info['rating'];
-			$data['rating_total'] = $response_info['rating_total'];
-			$data['downloaded'] = $response_info['downloaded'];
-			$data['sales'] = $response_info['sales'];
-			$data['topicid'] = $response_info['topicid'];
-			$data['topicseoname'] = $response_info['topicseoname'];
-			$data['date_added'] = date($this->language->get('date_format_short'), strtotime($response_info['date_added']));
-			$data['date_modified'] = date($this->language->get('date_format_short'), strtotime($response_info['date_modified']));
-
-			$data['member_username'] = $response_info['member_username'];
-			$data['member_url'] = $response_info['member_url'];
-			$data['member_image'] = $response_info['member_image'];
-			$data['member_date_added'] = $response_info['member_date_added'];
-			$data['filter_member'] = $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_member=' . $response_info['member_username']);
 
 
-			$data['comment_total'] = $response_info['comment_total'];
+            $this->document->setTitle($this->language->get('heading_title'));
 
-			$data['images'] = array();
+            $this->load->helper('HTMLPurifier/Bootstrap');
 
-			foreach ($response_info['images'] as $result) {
-				$data['images'][] = array(
-					'thumb' => $result['thumb'],
-					'popup' => $result['popup']
-				);
-			}
+            HTMLPurifier_Bootstrap::registerAutoload();
 
-			$this->load->model('setting/extension');
+            $config = HTMLPurifier_Config::createDefault();
+            $config->set('AutoFormat.RemoveEmpty',true);
+            $config->set('HTML.Allowed', 'p,ul[style],ol,li,a,img');
+            $config->set('HTML.AllowedAttributes', 'src, *.style, alt, href, target');
+            $config->set('CSS.AllowedProperties', 'font-size, text-align, color');
+            $config->set('HTML.Nofollow', true);
+            $config->set('HTML.TargetBlank', true);
+
+
+            $response_info = $this->strip($response_info, $config);
+
+
+            foreach ($response_info as $key => $value) {
+                $data[$key] = $value;
+            }
+
+			$data['filter_member'] = $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_member=' . strip_tags($response_info['member_username']));
+
+
+
 
 
 			$this->document->addStyle('view/javascript/jquery/magnific/magnific-popup.css');
@@ -746,6 +750,15 @@ class ControllerMarketplaceOpencartforum extends Controller {
 		} else {
 			return new Action('error/not_found');
 		}
+	}
+
+    private function strip($string, $config) {
+        $purifier = new HTMLPurifier($config);
+	    if (is_array($string))  {
+	        foreach ($string as $k => $v) {
+	        $string[$k] = $this->strip($v, $config); } return $string;
+	    }
+	    return $purifier->purify($string);
 	}
 
 }

@@ -217,9 +217,8 @@ final class Loader {
 	}
 	
 	protected function callback($registry, $route) {
-		static $model;
 		return function($args) use($registry, $route) {
-			global $model;
+			static $model;
 			
 			$route = preg_replace('/[^a-zA-Z0-9_\/]/', '', (string)$route);
 

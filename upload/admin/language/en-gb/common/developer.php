@@ -9,11 +9,11 @@ $_['heading_title']    = 'Developer Settings';
 $_['text_success']     = 'Success: You have modified developer settings!';
 $_['text_theme']       = 'theme';
 $_['text_sass']        = 'SASS';
-$_['text_systemcache']       = 'System';
+$_['text_systemcache'] = 'System';
 $_['text_imgcache']       = 'Images';
 $_['text_allcache']       = 'All';
 $_['text_cache']       = 'Success: You have cleared the %s cache!';
-$_['text_img_cache']       = 'Success: You have cleared the %s cache!';
+$_['text_img_cache']   = 'Success: You have cleared the %s cache!';
 
 // Column
 $_['column_component'] = 'Component';

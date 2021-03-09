@@ -764,7 +764,7 @@ input[type="checkbox"]:checked::after, .checkbox input[type="checkbox"]:checked:
 }
 
 #extension-list .extension-name {
-    min-height: 100px;
+    min-height: 120px;
 }
 
 #extension-list .extension-name p {

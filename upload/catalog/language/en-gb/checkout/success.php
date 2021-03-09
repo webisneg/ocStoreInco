@@ -4,8 +4,6 @@
 
 // Heading
 $_['heading_title'] 		 = 'Your Order #%s Has Been Placed!';
-$_['heading_title_customer'] = 'Your Order #%s Has Been Placed!';
-
 // Text
 $_['text_basket']          = 'Shopping Cart';
 $_['text_checkout']        = 'Checkout';
