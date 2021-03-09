@@ -53,6 +53,8 @@
 # Test Config File
 /tests/phpunit/bootstrap.php
 
+/library/HTMLPurifier/DefinitionCache/Serializer/*
+
 # IDE Project files
 /.idea
 /upload/.idea
