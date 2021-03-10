@@ -376,6 +376,7 @@ class ControllerMarketplaceModification extends Controller {
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('setting/modification');
+        $this->load->model('design/theme');
 
 		if ($this->validate()) {
 			// Clear log before refresh modifications
@@ -476,6 +477,14 @@ class ControllerMarketplaceModification extends Controller {
 					$recovery = $modification;
 				}
 
+                if ($this->config->get('config_theme') == 'default') {
+                    $theme = $this->config->get('theme_default_directory');
+                } else {
+                    $theme = $this->config->get('config_theme');
+                }
+
+                $store_id = (int)$this->config->get('config_store_id');
+
 				$files = $dom->getElementsByTagName('modification')->item(0)->getElementsByTagName('file');
 
 				foreach ($files as $file) {
@@ -519,7 +528,16 @@ class ControllerMarketplaceModification extends Controller {
 
 									// If file contents is not already in the modification array we need to load it.
 									if (!isset($modification[$key])) {
-										$content = file_get_contents($file);
+
+                                        $route = substr(mb_strstr($key, 'template'), 9, -5);
+
+                                        $theme_info = $this->model_design_theme->getTheme($store_id, $theme, $route);
+
+                                        if ($theme_info) {
+                                            $content = html_entity_decode($theme_info['code'], ENT_QUOTES, 'UTF-8');
+                                        } else {
+                                            $content = file_get_contents($file);
+                                        }
 
 										$modification[$key] = preg_replace('~\r?\n~', "\n", $content);
 										$original[$key] = preg_replace('~\r?\n~', "\n", $content);
