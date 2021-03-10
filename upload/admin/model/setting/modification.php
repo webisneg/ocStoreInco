@@ -4,6 +4,20 @@ class ModelSettingModification extends Model {
 		$this->db->query("INSERT INTO `" . DB_PREFIX . "modification` SET `extension_install_id` = '" . (int)$data['extension_install_id'] . "', `name` = '" . $this->db->escape($data['name']) . "', `code` = '" . $this->db->escape($data['code']) . "', `author` = '" . $this->db->escape($data['author']) . "', `version` = '" . $this->db->escape($data['version']) . "', `link` = '" . $this->db->escape($data['link']) . "', `xml` = '" . $this->db->escape($data['xml']) . "', `status` = '" . (int)$data['status'] . "', `date_added` = NOW()");
 	}
 
+    public function addModificationBackup($modification_id, $data) {
+        $xml = html_entity_decode($data['xml']);
+        $this->db->query("INSERT INTO " . DB_PREFIX . "modification_backup SET modification_id = '" . (int)$modification_id . "', code = '" . $this->db->escape($data['code']) . "', xml = '" . $this->db->escape($xml) . "', date_added = NOW()");
+    }
+
+    public function editModification($modification_id, $data) {
+        $xml = html_entity_decode($data['xml']);
+        $this->db->query("UPDATE " . DB_PREFIX . "modification SET xml = '" . $this->db->escape($xml) . "', name = '" . $this->db->escape($data['name']) . "' WHERE modification_id = '" . (int)$modification_id . "'");
+    }
+
+    public function setModificationRestore($modification_id, $xml) {
+        $this->db->query("UPDATE " . DB_PREFIX . "modification SET xml = '" . $this->db->escape($xml) . "' WHERE modification_id = '" . (int)$modification_id . "'");
+    }
+
 	public function deleteModification($modification_id) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE `modification_id` = '" . (int)$modification_id . "'");
 	}
@@ -66,11 +80,23 @@ class ModelSettingModification extends Model {
 		return $query->rows;
 	}
 
-	public function getTotalModifications() {
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "modification`");
+    public function getModificationBackups($modification_id) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' ORDER BY date_added DESC";
+        $query = $this->db->query($sql);
+        return $query->rows;
+    }
 
-		return $query->row['total'];
-	}
+    public function getModificationBackup($modification_id, $backup_id) {
+        $sql = "SELECT * FROM " . DB_PREFIX . "modification_backup  WHERE modification_id = '" . (int)$modification_id . "' AND backup_id = '" . (int)$backup_id . "' ORDER BY date_added DESC";
+        $query = $this->db->query($sql);
+        return $query->row;
+    }
+
+    public function getTotalModifications() {
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "modification`");
+
+        return $query->row['total'];
+    }
 	
 	public function getModificationByCode($code) {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "modification` WHERE `code` = '" . $this->db->escape($code) . "'");
