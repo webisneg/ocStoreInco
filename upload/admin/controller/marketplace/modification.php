@@ -1201,9 +1201,9 @@ class ControllerMarketplaceModification extends Controller {
         $modification = $this->model_setting_modification->getModification($this->request->get['modification_id']);
 
         if (isset($this->request->post['name'])) {
-            $data['name'] = $this->request->post['name'];
+            $data['name'] = htmlentities(ltrim($this->request->post['name']));
         } elseif (isset($modification)) {
-            $data['name'] = $modification['name'];
+            $data['name'] = htmlentities(ltrim(modification['name']));
         }
 
         if (isset($this->request->post['xml'])) {
