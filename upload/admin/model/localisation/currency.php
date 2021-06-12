@@ -38,6 +38,12 @@ class ModelLocalisationCurrency extends Model {
 		return $query->row;
 	}
 
+    public function editValueByCode($code, $value) {
+        $this->db->query("UPDATE `" . DB_PREFIX . "currency` SET `value` = '" . (float)$value . "', `date_modified` = NOW() WHERE `code` = '" . $this->db->escape((string)$code) . "'");
+
+        $this->cache->delete('currency');
+    }
+
 	public function getCurrencies($data = array()) {
 		if ($data) {
 			$sql = "SELECT * FROM " . DB_PREFIX . "currency";

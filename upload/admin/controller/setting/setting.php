@@ -17,8 +17,7 @@ class ControllerSettingSetting extends Controller {
 
 			if ($this->config->get('config_currency_auto')) {
 				$this->load->model('localisation/currency');
-
-				$this->model_localisation_currency->refresh();
+                $this->load->controller('extension/currency/' . $this->config->get('config_currency_engine')."/currency" , $this->config->get('config_currency'));
 			}
 
 			$this->session->data['success'] = $this->language->get('text_success');
@@ -366,6 +365,29 @@ class ControllerSettingSetting extends Controller {
 		} else {
 			$data['config_currency'] = $this->config->get('config_currency');
 		}
+
+        $data['currency_engines'] = [];
+
+        $this->load->model('setting/extension');
+
+        $extensions = $this->model_setting_extension->getInstalled('currency');
+
+        foreach ($extensions as $extension) {
+            if ($this->config->get('currency_' . $extension . '_status')) {
+                $this->load->language('extension/currency/' . $extension);
+
+                $data['currency_engines'][] = [
+                    'text'  => $this->language->get('heading_title'),
+                    'value' => $extension
+                ];
+            }
+        }
+
+        if (isset($this->request->post['config_currency_engine'])) {
+            $data['config_currency_engine'] = $this->request->post['config_currency_engine'];
+        } else {
+            $data['config_currency_engine'] = $this->config->get('config_currency_engine');
+        }
 
 		if (isset($this->request->post['config_currency_auto'])) {
 			$data['config_currency_auto'] = $this->request->post['config_currency_auto'];

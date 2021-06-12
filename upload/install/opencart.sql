@@ -1614,7 +1614,10 @@ INSERT INTO `oc_extension` (`extension_id`, `type`, `code`) VALUES
 (44, 'module', 'blog_featured'),
 (45, 'module', 'blog_category'),
 (46, 'module', 'featured_article'),
-(47, 'module', 'featured_product');
+(47, 'module', 'featured_product'),
+(48, 'currency', 'cbr'),
+(49, 'currency', 'ecb'),
+(50, 'currency', 'nbu');
 
 -----------------------------------------------------------
 
@@ -3806,6 +3809,11 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'configblog', 'configblog_image_article_height', '150', 0),
 (0, 'configblog', 'configblog_image_related_width', '200', 0),
 (0, 'configblog', 'configblog_image_related_height', '200', 0),
+(0, 'config', 'config_currency_engine', 'cbr', 0),
+(0, 'currency_cbr', 'currency_cbr_status', '1', 0),
+(0, 'currency_nbu', 'currency_nbu_status', '1', 0),
+(0, 'currency_ecb', 'currency_ecb_status', '1', 0),
+(0, 'currency_fixer', 'currency_fixer_status', '0', 0),
 (0, 'module_blog_category', 'module_blog_category_status', '1', 0);
 
 -----------------------------------------------------------

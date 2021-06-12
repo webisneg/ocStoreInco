@@ -64,6 +64,7 @@ $_['entry_language']                   = 'Язык';
 $_['entry_admin_language']             = 'Язык админки';
 $_['entry_currency']                   = 'Валюта';
 $_['entry_currency_auto']              = 'Автоматическое обновление валют';
+$_['entry_currency_engine']            = 'Источник курсов валют';
 $_['entry_length_class']               = 'Единица измерения длины';
 $_['entry_weight_class']               = 'Единица измерения веса';
 $_['entry_product_limit']              = 'Лимит товаров (Витрина)';
