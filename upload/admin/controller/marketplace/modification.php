@@ -382,7 +382,7 @@ class ControllerMarketplaceModification extends Controller {
 			// Clear log before refresh modifications
 			$handle = fopen(DIR_LOGS . 'ocmod.log', 'w+');
 			fclose($handle);
-			
+
 			// Just before files are deleted, if config settings say maintenance mode is off then turn it on
 			$maintenance = $this->config->get('config_maintenance');
 
@@ -461,7 +461,7 @@ class ControllerMarketplaceModification extends Controller {
 				if (empty($xml)){
 					continue;
 				}
-				
+
 				$dom = new DOMDocument('1.0', 'UTF-8');
 				$dom->preserveWhiteSpace = false;
 				$dom->loadXml($xml);
@@ -918,11 +918,11 @@ class ControllerMarketplaceModification extends Controller {
 
 	public function clearlog() {
 		$this->load->language('marketplace/modification');
-		
+
 		$this->document->setTitle($this->language->get('heading_title'));
 
 		$this->load->model('setting/modification');
-		
+
 		if ($this->validate()) {
 			$handle = fopen(DIR_LOGS . 'ocmod.log', 'w+');
 
@@ -1203,7 +1203,7 @@ class ControllerMarketplaceModification extends Controller {
         if (isset($this->request->post['name'])) {
             $data['name'] = htmlentities(ltrim($this->request->post['name']));
         } elseif (isset($modification)) {
-            $data['name'] = htmlentities(ltrim(modification['name']));
+            $data['name'] = htmlentities(ltrim($modification['name']));
         }
 
         if (isset($this->request->post['xml'])) {
