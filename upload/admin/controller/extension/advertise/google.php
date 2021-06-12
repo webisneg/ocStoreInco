@@ -1771,7 +1771,7 @@ class ControllerExtensionAdvertiseGoogle extends Controller {
                 'sort'        => 'name',
                 'order'       => 'ASC',
                 'start'       => 0,
-                'limit'       => 5
+                'limit'       => $this->config->get('config_limit_autocomplete')
             );
 
             $results = $this->model_extension_advertise_google->getCategories($filter_data, $this->store_id);
