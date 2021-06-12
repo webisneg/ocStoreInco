@@ -11,7 +11,7 @@ ocStore - это онлайн магазин, который основан на
  1. Посетите [OpenCart форум](https://opencartforum.com/), возможно что там, Вы найдете решение.
  2. Проверьте все открытые (и закрытые) вопросы на [Баг-трекер GitHub] (https://github.com/ocstore/ocstore/issues).
  3. Если ошибка связана с движком OpenCart, пожалуйста, создайте отчет [на форуме](https://opencartforum.com/forum/134-opencart-3x-otchyoty-ob-oshibkah/).
- 4. ПРОЧИТАЙТЕ [весь список изменений](https://github.com/ocStore/ocStore/blob/ocstore-3-0-2-0/changelog.md).
+ 4. ПРОЧИТАЙТЕ [весь список изменений](https://github.com/ocStore/ocStore/blob/ocstore-3-0-3-7/changelog.md).
  5. Что бы найти ответ на Ваш вопрос, используйте [поиск по форуму](https://opencartforum.com/search/).
  6. Пожалуйста убедитесь, что эта проблема (или ошибка) не связана с Вашим сервером.
 
@@ -32,14 +32,13 @@ ocStore - это онлайн магазин, который основан на
 
 ## Лицензия
 
-[GNU General Public License версии 3 (GPLv3)] (https://github.com/ocStore/ocStore/blob/ocstore-3-0-2-0/license.txt)
+[GNU General Public License версии 3 (GPLv3)] (https://github.com/ocStore/ocStore/blob/ocstore-3-0-3-7/license.txt)
 
 ## Ссылки
 
 - [Сайт ocStore] (https://ocstore.com/)
 - [OpenCart форум] (https://opencartforum.com/)
 - [Документация] (https://docs.ocstore.com/)
-- [Facebook] (https://www.facebook.com/ocstore)
-- [Вконтакте] (http://vk.com/ocstore)
-- [Twitter] (https://twitter.com/myopencartcom)
-- [YouTube] (https://www.youtube.com/c/MyOpenCart)
+- [Facebook] (https://www.facebook.com/opencartforum)
+- [Вконтакте] (https://vk.com/opencartforumcom)
+- [YouTube] (https://www.youtube.com/c/OpenCartForumCom)
