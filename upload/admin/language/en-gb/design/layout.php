@@ -10,6 +10,7 @@ $_['text_success']        = 'Success: You have modified layouts!';
 $_['text_list']           = 'Layout List';
 $_['text_add']            = 'Add Layout';
 $_['text_edit']           = 'Edit Layout';
+$_['text_move']           = 'You can move and reorder modules position';
 $_['text_remove']         = 'Remove';
 $_['text_route']          = 'Choose the store and routes to be used with this layout';
 $_['text_module']         = 'Choose the position of the modules';

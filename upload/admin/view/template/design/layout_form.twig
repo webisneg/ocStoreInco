@@ -357,6 +357,19 @@
     </div>
   </div>
   <script type="text/javascript"><!--
+    // Reorderable drag-and-drop lists
+    $('.row table tbody .input-group-btn').prepend('<span data-toggle="tooltip" title="{{ text_move }}" class="btn btn-success btn-sm handle"><i class="fa fa-hand-grab-o"></i></span>');
+    $('.row table tbody').sortable({
+      handle: '.handle',
+      chosenClass: 'handle-active',
+      onEnd: function (evt) {
+        var orderIndex = 1;
+        $($(evt.item).parent().find('input[name*="sort_order"]')).each(function() {
+          $(this).val(orderIndex);
+          orderIndex++;
+        });
+      }
+    });
 var route_row = {{ route_row }};
 
 function addRoute() {
@@ -395,7 +408,7 @@ function addModule(type) {
 	html += '  </select>';
     html += '  <input type="hidden" name="layout_module[' + module_row + '][position]" value="' + type.replace('-', '_') + '" />';
     html += '  <input type="hidden" name="layout_module[' + module_row + '][sort_order]" value="" />';
-	html += '  <div class="input-group-btn"><a href="" target="_blank" type="button" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a><button type="button" onclick="$(\'#module-row' + module_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm"><i class="fa fa fa-minus-circle"></i></button></div></div></td>';
+	html += '  <div class="input-group-btn"><span data-toggle="tooltip" title="<?php echo $text_move; ?>" class="btn btn-success btn-sm handle"><i class="fa fa-hand-grab-o"></i></span><a href="" target="_blank" type="button" data-toggle="tooltip" title="{{ button_edit }}" class="btn btn-primary btn-sm"><i class="fa fa-pencil"></i></a><button type="button" onclick="$(\'#module-row' + module_row + '\').remove();" data-toggle="tooltip" title="{{ button_remove }}" class="btn btn-danger btn-sm"><i class="fa fa fa-minus-circle"></i></button></div></div></td>';
 	html += '</tr>';
 	
 	$('#module-' + type + ' tbody').append(html);
