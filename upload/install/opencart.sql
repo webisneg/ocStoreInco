@@ -1617,7 +1617,8 @@ INSERT INTO `oc_extension` (`extension_id`, `type`, `code`) VALUES
 (47, 'module', 'featured_product'),
 (48, 'currency', 'cbr'),
 (49, 'currency', 'ecb'),
-(50, 'currency', 'nbu');
+(50, 'currency', 'nbu'),
+(51, 'dashboard', 'domovoy');
 
 -----------------------------------------------------------
 
@@ -3814,7 +3815,19 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'currency_nbu', 'currency_nbu_status', '1', 0),
 (0, 'currency_ecb', 'currency_ecb_status', '1', 0),
 (0, 'currency_fixer', 'currency_fixer_status', '0', 0),
-(0, 'module_blog_category', 'module_blog_category_status', '1', 0);
+(0, 'module_blog_category', 'module_blog_category_status', '1', 0),
+(0, 'domovoy', 'domovoy_folders_logs', '{"size":9572,"unit":{"size":9.3000000000000007,"unit":"\\u041a\\u0431\\u0430\\u0439\\u0442"},"files":4,"date":"2021-06-12 19:16:43"}', 1),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_warning_funtions', 'diskfreespace\r\ndisk_total_space\r\ndisk_total_space\r\nfileperms\r\nfopen\r\nphpversion\r\nopendir\r\nposix_getpwuid\r\nposix_uname', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_danger_funtions', 'exec\r\npassthru\r\nini_get\r\nini_get_all\r\nparse_ini_file\r\nphp_uname\r\nsystem\r\nshell_exec\r\nshow_source\r\npcntl_exec\r\npcntl_exec\r\nexpect_popen\r\nproc_open\r\npopen', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_free_space_status', '0', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_disk_free_space', '500', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_cron', '{"logs":{"status":"1","size":"100","time":"30"},"cache":{"status":"0","size":"100","time":"30"},"imagescache":{"status":"0","size":"100","time":"30"}}', 1),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_sort_order', '10', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_status', '1', 0),
+(0, 'dashboard_domovoy', 'dashboard_domovoy_width', '12', 0);
+
+
+
 
 -----------------------------------------------------------
 
