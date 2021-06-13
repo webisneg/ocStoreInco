@@ -319,6 +319,13 @@ $('.date').datetimepicker({
 	language: '{{ datepicker }}',
 	pickTime: false
 });
-//--></script> 
+//--></script>
+<script type="text/javascript"><!--
+  $('#filter-return').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      $('#button-filter').trigger('click')
+    }
+  });
+//--></script>
 </div>
 {{ footer }} 

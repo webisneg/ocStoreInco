@@ -241,11 +241,17 @@ $('input[name=\'filter_email\']').autocomplete({
 		$('input[name=\'filter_email\']').val(item['label']);
 	}	
 });
+$('#filter-customer').on('keydown', function(e) {
+  if (e.keyCode == 13) {
+    $('#button-filter').trigger('click')
+  }
+});
 //--></script> 
   <script type="text/javascript"><!--
 $('.date').datetimepicker({
 	language: '{{ datepicker }}',
 	pickTime: false
 });
-//--></script></div>
+//--></script>
+</div>
 {{ footer }}

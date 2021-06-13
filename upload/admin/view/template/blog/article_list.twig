@@ -198,5 +198,10 @@ $('#button-clear-input-name').on('click',function(){
 	$('input[name=\'filter_name\']').val('');
 	$('#button-filter').trigger('click');
 });
+$('#filter-article').on('keydown', function(e) {
+  if (e.keyCode == 13) {
+    $('#button-filter').trigger('click')
+  }
+});
 //--></script></div>
 {{ footer }} 

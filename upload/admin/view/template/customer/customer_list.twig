@@ -258,5 +258,12 @@
     pickTime: false
   });
   //--></script>
+<script type="text/javascript"><!--
+  $('#filter-customer').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      $('#button-filter').trigger('click')
+    }
+  });
+//--></script>
 </div>
 {{ footer }}

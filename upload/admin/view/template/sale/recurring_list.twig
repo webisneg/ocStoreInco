@@ -200,5 +200,13 @@ $('input[name=\'filter_customer\']').autocomplete({
 		$('input[name=\'filter_customer\']').val(item['label']);
 	}
 });
-//--></script></div>
+//--></script>
+<script type="text/javascript"><!--
+  $('#filter-recurring').on('keydown', function(e) {
+    if (e.keyCode == 13) {
+      $('#button-filter').trigger('click')
+    }
+  });
+//--></script>
+</div>
 {{ footer }} 

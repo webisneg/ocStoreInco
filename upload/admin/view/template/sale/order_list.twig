@@ -293,5 +293,10 @@ $('.date').datetimepicker({
 	language: '{{ datepicker }}',
 	pickTime: false
 });
+$('#filter-order').on('keydown', function(e) {
+  if (e.keyCode == 13) {
+      $('#button-filter').trigger('click')
+  }
+});
 //--></script></div>
 {{ footer }} 
