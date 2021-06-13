@@ -35,6 +35,8 @@ $_['text_general']                   = 'General';
 $_['text_security']                  = 'Security';
 $_['text_upload']                    = 'Uploads';
 $_['text_error']                     = 'Error Handling';
+$_['text_canonical_ocstore']         = 'ocStore solution';
+$_['text_canonical_opencart']        = 'original OpenCart';
 
 // Entry
 $_['entry_meta_title']               = 'Meta Title';
@@ -134,6 +136,14 @@ $_['entry_config_seo_url_include_path']	= 'Product url with categories';
 $_['entry_config_seo_url_cache']        = 'Enable seo pro cache';
 $_['entry_seopro_addslash']			   = 'Add slash for end of url';
 $_['entry_seopro_lowercase']		   = 'URLs lowercase';
+$_['entry_canonical_method']	     = 'Method of generation canonical, prev, next. <a target="_blank" href="https://opencartforum.com/topic/174539-sposob-vyvoda-tegov-canonical-prev-next-v-ocstore/">More</a>';
+$_['entry_add_prevnext']	         = 'Using prev, next for pagination';
+$_['entry_add_prevnext_help']	     = 'Work only with ocStore solution method';
+$_['entry_canonical_self']	         = 'Display tag canonical on base page';
+$_['entry_canonical_self_help']	     = 'Work only with ocStore solution method';
+$_['entry_canonical_method_help']	 = 'Choosing method for generate prev, next for pagination';
+$_['entry_noindex_status']	         = 'Using noindex for category, product, manufacturers, blog etc.';
+$_['entry_noindex_disallow_params']	 = 'Not use noindex for page with get params:';
 
 // Help
 $_['help_geocode']                   = 'Please enter your store location geocode manually.';

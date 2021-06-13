@@ -1491,7 +1491,7 @@
 				<div class="col-sm-10">
 				<input type="text" name="config_page_postfix" value="{{ config_page_postfix }}" placeholder="{{ entry_page_postfix }}" id="input-page-postfix" class="form-control" />
 				</div>
-			</div>			
+			</div>
 			<div class="form-group">
 			  <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ help_config_valide_param_flag }}">{{ entry_config_valide_param_flag }}</span></label>
 			  <div class="col-sm-10">
@@ -1517,8 +1517,108 @@
 				<textarea name="config_valide_params" rows=10" placeholder="{{ entry_valide_params }}" id="input-valide-params" class="form-control">{{ config_valide_params }}</textarea>
 			  </div>
 			</div>
-			
-
+            <div class="form-group">
+              <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_canonical_method_help }}">{{ entry_canonical_method }}</span></label>
+              <div class="col-sm-10">
+                {% if config_canonical_method %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_method" value="1" checked="checked"/>
+                  {{ text_canonical_ocstore }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_method" value="0"/>
+                  {{ text_canonical_opencart }}
+                </label>
+                {% else %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_method" value="1"/>
+                  {{ text_canonical_ocstore }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_method" value="0" checked="checked"/>
+                  {{ text_canonical_opencart }}
+                </label>
+                {% endif %}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_canonical_self_help }}">{{ entry_canonical_self }}</span></label>
+              <div class="col-sm-10">
+                {% if config_canonical_self %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_self" value="1" checked="checked"/>
+                  {{ text_yes }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_self" value="0"/>
+                  {{ text_no }}
+                </label>
+                {% else %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_self" value="1"/>
+                  {{ text_yes }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_canonical_self" value="0" checked="checked"/>
+                  {{ text_no }}
+                </label>
+                {% endif %}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label"><span data-toggle="tooltip" title="{{ entry_add_prevnext_help }}">{{ entry_add_prevnext }}</span></label>
+              <div class="col-sm-10">
+                {% if config_add_prevnext %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_add_prevnext" value="1" checked="checked"/>
+                  {{ text_yes }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_add_prevnext" value="0"/>
+                  {{ text_no }}
+                </label>
+                {% else %}
+                <label class="radio-inline">
+                  <input type="radio" name="config_add_prevnext" value="1"/>
+                  {{ text_yes }}
+                </label>
+                <label class="radio-inline">
+                  <input type="radio" name="config_add_prevnext" value="0" checked="checked"/>
+                  {{ text_no }}
+                </label>
+                {% endif %}
+              </div>
+            </div>
+            <div class="form-group">
+            <label class="col-sm-2 control-label">{{ entry_noindex_status }}</label>
+            <div class="col-sm-10">
+              {% if config_noindex_status %}
+              <label class="radio-inline">
+                <input type="radio" name="config_noindex_status" value="1" checked="checked"/>
+                {{ text_yes }}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="config_noindex_status" value="0"/>
+                {{ text_no }}
+              </label>
+              {% else %}
+              <label class="radio-inline">
+                <input type="radio" name="config_noindex_status" value="1"/>
+                {{ text_yes }}
+              </label>
+              <label class="radio-inline">
+                <input type="radio" name="config_noindex_status" value="0" checked="checked"/>
+                {{ text_no }}
+              </label>
+              {% endif %}
+            </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label" for="input-valide-params"><span data-toggle="tooltip" title="{{ help_valide_params }}">{{ entry_noindex_disallow_params }}</span></label>
+              <div class="col-sm-10">
+                <textarea name="config_noindex_disallow_params" rows=10" placeholder="{{ entry_noindex_disallow_params }}" id="input-valide-params" class="form-control">{{ config_noindex_disallow_params }}</textarea>
+              </div>
+            </div>
 		  </fieldset>
 		</div>
 			

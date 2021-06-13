@@ -122,7 +122,7 @@ class ControllerBlogArticle extends Controller {
 				$this->document->setTitle($article_info['name']);
 			}
 			
-			if ($article_info['noindex'] <= 0) {
+			if ($article_info['noindex'] <= 0 && $this->config->get('config_noindex_status')) {
 				$this->document->setRobots('noindex,follow');
 			}
 

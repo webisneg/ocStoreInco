@@ -876,6 +876,38 @@ class ControllerSettingSetting extends Controller {
 			$data['config_seo_url'] = $this->config->get('config_seo_url');
 		}
 
+        if (isset($this->request->post['config_canonical_method'])) {
+            $data['config_canonical_method'] = $this->request->post['config_canonical_method'];
+        } else {
+            $data['config_canonical_method'] = $this->config->get('config_canonical_method');
+        }
+
+        if (isset($this->request->post['config_canonical_self'])) {
+            $data['config_canonical_self'] = $this->request->post['config_canonical_self'];
+        } else {
+            $data['config_canonical_self'] = $this->config->get('config_canonical_self');
+        }
+
+        if (isset($this->request->post['config_add_prevnext'])) {
+            $data['config_add_prevnext'] = $this->request->post['config_add_prevnext'];
+        } else {
+            $data['config_add_prevnext'] = $this->config->get('config_add_prevnext');
+        }
+
+        if (isset($this->request->post['config_noindex_status'])) {
+            $data['config_noindex_status'] = $this->request->post['config_noindex_status'];
+        } else {
+            $data['config_noindex_status'] = $this->config->get('config_noindex_status');
+        }
+
+        if (isset($this->request->post['config_noindex_disallow_params'])) {
+            $data['config_noindex_disallow_params'] = $this->request->post['config_noindex_disallow_params'];
+        } elseif ($this->config->get('config_noindex_disallow_params')) {
+            $data['config_noindex_disallow_params'] = $this->config->get('config_noindex_disallow_params');
+        } else {
+            $data['config_noindex_disallow_params'] = "page";
+        }
+
 		if (isset($this->request->post['config_file_max_size'])) {
 			$data['config_file_max_size'] = $this->request->post['config_file_max_size'];
 		} elseif ($this->config->get('config_file_max_size')) {

@@ -31,7 +31,7 @@ class ControllerInformationInformation extends Controller {
 				$this->document->setTitle($information_info['title']);
 			}
 			
-			if ($information_info['noindex'] <= 0) {
+			if ($information_info['noindex'] <= 0 && $this->config->get('config_noindex_status')) {
 				$this->document->setRobots('noindex,follow');
 			}
 			

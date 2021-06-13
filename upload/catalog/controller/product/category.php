@@ -15,37 +15,54 @@ class ControllerProductCategory extends Controller {
 
 		$data['text_empty'] = $this->language->get('text_empty');
 
+        if ($this->config->get('config_noindex_disallow_params')) {
+            $params = explode ("\r\n", $this->config->get('config_noindex_disallow_params'));
+            if(!empty($params)) {
+                $disallow_params = $params;
+            }
+        }
+
 		if (isset($this->request->get['filter'])) {
 			$filter = $this->request->get['filter'];
-			$this->document->setRobots('noindex,follow');
+			if (!in_array('filter', $disallow_params, true) && $this->config->get('config_noindex_status')){
+                $this->document->setRobots('noindex,follow');
+            }
 		} else {
 			$filter = '';
 		}
 
 		if (isset($this->request->get['sort'])) {
 			$sort = $this->request->get['sort'];
-			$this->document->setRobots('noindex,follow');
+            if (!in_array('sort', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+                $this->document->setRobots('noindex,follow');
+            }
 		} else {
 			$sort = 'p.sort_order';
 		}
 
 		if (isset($this->request->get['order'])) {
 			$order = $this->request->get['order'];
-			$this->document->setRobots('noindex,follow');
+            if (!in_array('order', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+                $this->document->setRobots('noindex,follow');
+            }
 		} else {
 			$order = 'ASC';
 		}
 
 		if (isset($this->request->get['page'])) {
 			$page = (int)$this->request->get['page'];
-            $this->document->setRobots('noindex,follow');
+            if (!in_array('page', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+                $this->document->setRobots('noindex,follow');
+            }
 		} else {
 			$page = 1;
 		}
 
 		if (isset($this->request->get['limit'])) {
 			$limit = (int)$this->request->get['limit'];
-			$this->document->setRobots('noindex,follow');
+            if (!in_array('limit', $disallow_params, true) && $this->config->get('config_noindex_status')) {
+                $this->document->setRobots('noindex,follow');
+            }
 		} else {
 			$limit = $this->config->get('theme_' . $this->config->get('config_theme') . '_product_limit');
 		}
@@ -108,7 +125,7 @@ class ControllerProductCategory extends Controller {
 				$this->document->setTitle($category_info['name']);
 			}
 
-			if ($category_info['noindex'] <= 0) {
+			if ($category_info['noindex'] <= 0 && $this->config->get('config_noindex_status')) {
 				$this->document->setRobots('noindex,follow');
 			}
 
@@ -358,20 +375,47 @@ class ControllerProductCategory extends Controller {
 
 			$data['results'] = sprintf($this->language->get('text_pagination'), ($product_total) ? (($page - 1) * $limit) + 1 : 0, ((($page - 1) * $limit) > ($product_total - $limit)) ? $product_total : ((($page - 1) * $limit) + $limit), $product_total, ceil($product_total / $limit));
 
-			// http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
-			if ($page == 1) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id']), 'canonical');
-			} else {
-				$this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. $page), 'canonical');
-			}
-			
-			if ($page > 1) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . (($page - 2) ? '&page='. ($page - 1) : '')), 'prev');
-			}
+            if (!$this->config->get('config_canonical_method')) {
+                // http://googlewebmastercentral.blogspot.com/2011/09/pagination-with-relnext-and-relprev.html
+                if ($page == 1) {
+                    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id']), 'canonical');
+                } elseif ($page == 2) {
+                    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id']), 'prev');
+                } else {
+                    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page=' . ($page - 1)), 'prev');
+                }
 
-			if ($limit && ceil($product_total / $limit) > $page) {
-			    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page='. ($page + 1)), 'next');
-			}
+                if ($limit && ceil($product_total / $limit) > $page) {
+                    $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page=' . ($page + 1)), 'next');
+                }
+            } else {
+
+                if (isset($this->request->server['HTTPS']) && (($this->request->server['HTTPS'] == 'on') || ($this->request->server['HTTPS'] == '1'))) {
+                    $server = $this->config->get('config_ssl');
+                } else {
+                    $server = $this->config->get('config_url');
+                };
+
+                $request_url = rtrim($server, '/') . $this->request->server['REQUEST_URI'];
+                $canonical_url = $this->url->link('product/category', 'path=' . $category_info['category_id']);
+
+                if (($request_url != $canonical_url) || $this->config->get('config_canonical_self')) {
+                    $this->document->addLink($canonical_url, 'canonical');
+                }
+
+                if ($this->config->get('config_add_prevnext')) {
+
+                    if ($page == 2) {
+                        $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id']), 'prev');
+                    } elseif ($page > 2)  {
+                        $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page=' . ($page - 1)), 'prev');
+                    }
+
+                    if ($limit && ceil($product_total / $limit) > $page) {
+                        $this->document->addLink($this->url->link('product/category', 'path=' . $category_info['category_id'] . '&page=' . ($page + 1)), 'next');
+                    }
+                }
+            }
 
 			$data['sort'] = $sort;
 			$data['order'] = $order;
