@@ -433,9 +433,11 @@ class ControllerSettingSetting extends Controller {
 
 		if (isset($this->request->post['config_limit_autocomplete'])) {
 			$data['config_limit_autocomplete'] = $this->request->post['config_limit_autocomplete'];
-		} else {
+        } elseif ($this->config->get('config_limit_autocomplete')) {
 			$data['config_limit_autocomplete'] = $this->config->get('config_limit_autocomplete');
-		}
+		} else {
+            $data['config_limit_autocomplete'] = 5;
+        }
 
 		if (isset($this->request->post['config_product_count'])) {
 			$data['config_product_count'] = $this->request->post['config_product_count'];
