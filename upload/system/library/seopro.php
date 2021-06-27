@@ -3,6 +3,7 @@
  * @package		SeoPro
  * @author		Oclabs
  * @copyright	Copyright (c) 2017, Oclabs (https://www.oclabs.pro/)
+ * @copyright	Copyright (c) 2021, ocStore (https://ocstore.com/)
  * @license		https://opensource.org/licenses/GPL-3.0
 */
 
@@ -23,10 +24,9 @@ class SeoPro {
 	private $queries = [];
 	private $product_categories = [];
 	private $valide_get_param;
-	private $categories;
 
 	public function __construct($registry) {	
-	
+		$this->detectAjax();
 		$this->registry = $registry;
 		$this->config = $registry->get('config');
 		
@@ -51,15 +51,7 @@ class SeoPro {
 	}
 	
 	public function prepareRoute($parts) {
-		
-		// check double slashes
-		$current_url = $this->request->server['REQUEST_URI'];
-		if (preg_match('!/{2,}!', $current_url) ){
-			$url = preg_replace('!/{2,}!', '/', $current_url);
-			$this->response->redirect($url, 301);
-			exit;
-		}
-		
+
 		if (!empty($parts) && is_array($parts)) {
 
 			foreach($parts as $id => $part) {
@@ -133,14 +125,6 @@ class SeoPro {
 			$this->request->get['route'] = 'blog/category';
 		} 
 		//end blog
-		
-		// fix https://demo.ocstore.com/desktops/mac/about_us etc
-		if ((isset($this->request->get['path']) && isset($this->request->get['manufacturer_id'])) || (isset($this->request->get['path']) && isset($this->request->get['information_id'])) || (isset($this->request->get['manufacturer_id']) && isset($this->request->get['product_id'])) ||	(isset($this->request->get['manufacturer_id']) && isset($this->request->get['information_id']))) {
-			$this->request->get['route'] = 'error/not_found';
-			return [];
-		}
-				
-				
 		return $parts;
 	}
 	
@@ -156,7 +140,7 @@ class SeoPro {
 				$route = 'product/product';
 				$path = '';
 				$product_id = $data['product_id'];
-				if ($this->config->get('config_seo_url_include_path')) {
+				if (isset($data['path']) || $this->config->get('config_seo_url_include_path')) {
 					$path = $this->getCategoryByProduct($product_id);
 				}
 				
@@ -175,7 +159,7 @@ class SeoPro {
 				unset($data);
 				$data['route'] = $route;
 				
-				if (!empty($path)) {
+				if ($path && $this->config->get('config_seo_url_include_path')) {
 					$data['path'] = $path;
 				}	
 				
@@ -348,7 +332,7 @@ class SeoPro {
 		return [$url, $data, $postfix];
 	}
 	
-		private function getPath($category_id, $current_path = []) {
+		private function getPath($categories, $category_id, $current_path = []) {
 	
 		if(!$current_path)
 			$current_path = [(int)$category_id];
@@ -357,12 +341,12 @@ class SeoPro {
 		
 		$parent_id = 0;
 		
-		if(isset($this->categories[$category_id]['parent_id'])) 
-			$parent_id = (int)$this->categories[$category_id]['parent_id'];
+		if(isset($categories[$category_id]['parent_id']))
+			$parent_id = (int)$categories[$category_id]['parent_id'];
 					
 		if($parent_id > 0) {
 			$new_path =  array_merge ([$parent_id] , $current_path);
-			$path =  $this->getPath($parent_id, $new_path);
+			$path =  $this->getPath($categories, $parent_id, $new_path);
 		}
 
 		return $path;
@@ -379,28 +363,26 @@ class SeoPro {
 		
 			$this->cat_tree = [];
 			
-			$all_cat_query = $this->db->query("SELECT category_id, parent_id FROM " . DB_PREFIX . "category WHERE status = 1 ORDER BY parent_id");
+			$all_cat_query = $this->db->query("SELECT category_id, parent_id FROM " . DB_PREFIX . "category ORDER BY parent_id");
 				
 			$allcats = [];
-			$this->categories = [];
+			$categories = [];
 			
 			if($all_cat_query->num_rows) {
 				$allcats = $all_cat_query->rows;
 			};
 			
 			foreach ($allcats as $category) {
-				$this->categories[$category['category_id']]['parent_id'] = $category['parent_id'];
+				$categories[$category['category_id']]['parent_id'] = $category['parent_id'];
 			};
 			unset ($allcats);
-			unset ($all_cat_query);
 			
-			foreach ($this->categories as $category_id => $category) {
-				$path = $this->getPath($category_id);
+			foreach ($categories as $category_id => $category) {
+				$path = $this->getPath($categories, $category_id);
 				$this->cat_tree[$category_id]['path'] = $path;
 					
 			};
-			
-		
+
 		}
 		//end_category_tree
 		
@@ -489,9 +471,7 @@ class SeoPro {
 	}
 	
 	public function validate() {
-		
-		$this->detectAjax();
-		
+
 		// break redirect for php-cli-script
 		if (php_sapi_name() === 'cli') 
 			return;
@@ -512,8 +492,7 @@ class SeoPro {
 
 		if (!empty($this->request->post)) 
 			return;
-		
-		
+
 		if ($this->ajax) {
 			$this->response->addHeader('X-Robots-Tag: noindex');
 			return;
@@ -546,8 +525,6 @@ class SeoPro {
 		}
 
 		$url = str_replace('&amp;', '&', $host . ltrim($uri, '/'));
-		//fix utm on homepage https://demo.ocstore.com/?utm_medium=test
-		$url = str_replace(HTTPS_SERVER . '?', rtrim(HTTPS_SERVER, '/').'?', $url); 
 		$seo = str_replace('&amp;', '&', $this->url->link($route, $this->getQueryString(array('_route_', 'route')), $_SERVER['HTTPS']));
 	
 
@@ -562,9 +539,7 @@ class SeoPro {
 	}
 
 	private function detectLanguage() {
-		
-		$this->detectAjax();
-		
+
 		if ($this->ajax) 
 			return;
 
