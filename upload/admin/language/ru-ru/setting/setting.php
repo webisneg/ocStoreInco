@@ -183,7 +183,7 @@ $_['entry_canonical_self']	           = 'Выводить тег canonical на 
 $_['entry_canonical_self_help']	       = 'Работает только при включенном способе вывода тегов - ocStore решение';
 $_['entry_canonical_method_help']	   = 'Выберите способ согласно которого будет формироваться вывод тегов canonical, prev, next';
 $_['entry_noindex_status']	           = 'Использовать noindex для категорий, производителей, товаров, статей и т д';
-$_['entry_noindex_disallow_params']	   = 'Не использовать noindex для страниц с get параметрами:';
+$_['entry_noindex_disallow_params']	   = 'Игнорировать noindex для страниц с get параметрами:';
 
 // Help
 $_['help_geocode']                     = 'Пожалуйста, укажите geocode расположение вашего магазина.';
