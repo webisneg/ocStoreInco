@@ -436,7 +436,7 @@ class SeoPro {
 			if (isset($this->queries[$keyword][$store_id][$language_id])) 
 				$query = $this->queries[$keyword][$store_id][$language_id];
 		} else {
-			$_query = $this->db->query("SELECT query FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape($keyword) . "' AND store_id = '" . $store_id . "' AND language_id = '" . $language_id . "' LIMIT 1");	
+			$_query = $this->db->query("SELECT query FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape(trim($keyword)) . "' AND store_id = '" . $store_id . "' AND language_id = '" . $language_id . "' LIMIT 1");
 			$query = !empty($_query->row) ? (string)$_query->row['query'] : null;
 		}
 		
@@ -555,7 +555,7 @@ class SeoPro {
 		}
 		
 		if ($keyword || $this->request->server['REQUEST_URI'] == '/') {
-			$query = $this->db->query("SELECT language_id  FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape($keyword) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' LIMIT 1");
+			$query = $this->db->query("SELECT language_id  FROM " . DB_PREFIX . "seo_url WHERE keyword = '" . $this->db->escape(trim($keyword)) . "' AND store_id = '" . (int)$this->config->get('config_store_id') . "' LIMIT 1");
 			if ($query->row) {
 				$request_language_id = (int)$query->row['language_id'];				
 		
