@@ -130,7 +130,7 @@ class ControllerExtensionExtensionPayment extends Controller {
 			}
 		}
 
-		$data['promotion'] = $this->load->controller('extension/extension/promotion');
+		$data['promotion'] = $this->load->controller('marketplace/promotion');
 
 		$sort_order = array();
 		
