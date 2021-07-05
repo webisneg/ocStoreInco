@@ -23,6 +23,10 @@ class ModelSettingModification extends Model {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE `modification_id` = '" . (int)$modification_id . "'");
 	}
 
+    public function deleteModificationBackups($modification_id) {
+        $this->db->query("DELETE FROM " . DB_PREFIX . "modification_backup WHERE modification_id = '" . (int)$modification_id . "'");
+    }
+
 	public function deleteModificationsByExtensionInstallId($extension_install_id) {
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "modification` WHERE `extension_install_id` = '" . (int)$extension_install_id . "'");
 	}
