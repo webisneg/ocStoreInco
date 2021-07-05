@@ -142,7 +142,6 @@ class ControllerMarketplaceOpencartforum extends Controller {
 
 		$curl = curl_init(OPENCARTFORUM_SERVER . 'marketplace/api?' . $url);
 
-
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
@@ -157,6 +156,22 @@ class ControllerMarketplaceOpencartforum extends Controller {
 		$response_info = json_decode($response, true);
 
 		$extension_total = strip_tags($response_info['extension_total']);
+
+		// Categories
+        $curl = curl_init(OPENCARTFORUM_SERVER . 'marketplace/api/categories?' . $url);
+
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($curl, CURLOPT_FORBID_REUSE, 1);
+        curl_setopt($curl, CURLOPT_FRESH_CONNECT, 1);
+
+        $response = curl_exec($curl);
+
+        $status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+        curl_close($curl);
+
+        $categories_info = json_decode($response, true);
 
 		$url  = '';
 
@@ -267,6 +282,8 @@ class ControllerMarketplaceOpencartforum extends Controller {
 			$url .= '&sort=' . $this->request->get['sort'];
 		}
 
+        $categories = $this->strip($categories_info['categories'], $config);
+
 		$data['categories'] = array();
 
 		$data['categories'][] = array(
@@ -275,191 +292,13 @@ class ControllerMarketplaceOpencartforum extends Controller {
 			'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . $url, true)
 		);
 
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_besplatnye_shablony'),
-            'value' => '10',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=10' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_platnye_shablony'),
-            'value' => '11',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=11' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_filtry'),
-            'value' => '36',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=36' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_ceny_skidki_akcii_podarki'),
-            'value' => '38',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=38' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_bonusy_kupony_programmy_loyalnosti'),
-            'value' => '44',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=44' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_blogi_novosti_stati'),
-            'value' => '45',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=45' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_pokupki_oformlenie_zakaza_korzina'),
-            'value' => '51',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=51' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_opcii'),
-            'value' => '60',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=60' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_atributy'),
-            'value' => '65',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=65' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_serii_komplekty'),
-            'value' => '63',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=63' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_poisk'),
-            'value' => '57',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=57' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_seo_karta_sayta_optimizaciya'),
-            'value' => '53',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=53' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_keshirovanie_szhatie_uskorenie'),
-            'value' => '54',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=54' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_platezhnye_sistemy'),
-            'value' => '5',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=5' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_dostavki'),
-            'value' => '7',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=7' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_redaktory'),
-            'value' => '72',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=72' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_menyu_dizayn_vneshniy_vid'),
-            'value' => '80',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=80' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_slaydshou_bannery_galerei'),
-            'value' => '78',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=78' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_pisma_pochta_rassylki_sms'),
-            'value' => '66',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=66' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_obratnaya_svyaz_zvonki'),
-            'value' => '75',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=75' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_obmen_dannymi'),
-            'value' => '6',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=6' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_uchet_v_zakaze'),
-            'value' => '8',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=8' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_sravneniya_zakladki'),
-            'value' => '77',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=77' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_socialnye_seti'),
-            'value' => '13',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=13' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_parsery'),
-            'value' => '69',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=69' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_moduli'),
-            'value' => '2',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=2' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_instrumenty_utility'),
-            'value' => '71',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=71' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_licenzii'),
-            'value' => '23',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=23' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_yazykovye_pakety'),
-            'value' => '4',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=4' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_prochee'),
-            'value' => '3',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=3' . $url, true)
-        );
-
-        $data['categories'][] = array(
-            'text'  => $this->language->get('text_otchety'),
-            'value' => '9',
-            'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category=9' . $url, true)
-        );
+		foreach ($categories as $category) {
+            $data['categories'][] = array(
+                'text'  => $category['text'],
+                'value' => $category['value'],
+                'href'  => $this->url->link('marketplace/opencartforum', 'user_token=' . $this->session->data['user_token'] . '&filter_category='.$category['value']. $url, true)
+            );
+		}
 
 		// Licenses
 		$url = '';
