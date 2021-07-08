@@ -211,7 +211,7 @@ class ControllerCommonDeveloper extends Controller {
 					}
 
 					if (is_dir($directory)) {
-						rmdir($directory);
+                        $this->deldir($directory);
 					}
 				}
 			}
