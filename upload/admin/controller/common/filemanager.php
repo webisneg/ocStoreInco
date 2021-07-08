@@ -18,7 +18,7 @@ class ControllerCommonFileManager extends Controller {
 
 		// Make sure we have the correct directory
 		if (isset($this->request->get['directory'])) {
-			$directory = rtrim(DIR_IMAGE . 'catalog/' . str_replace('*', '', $this->request->get['directory']), '/');
+            $directory = rtrim(DIR_IMAGE . 'catalog/' . trim(str_replace('*', '', $this->request->get['directory']), '/'), '/');
 		} else if (!empty($this->session->data['file_manager_directory'])) {
 			$directory = $this->session->data['file_manager_directory'];
 		} else {
