@@ -18,7 +18,7 @@ class ControllerStartupSeoUrl extends Controller {
 		if ($this->config->get('config_seo_url')) {
 			$this->url->addRewrite($this);
 		}
-		
+
 	
 		// Decode URL
 		if (isset($this->request->get['_route_'])) {
@@ -148,6 +148,20 @@ class ControllerStartupSeoUrl extends Controller {
 		}
 
 		//seo_pro add blank url
+		unset($data['route']);
+
+		$query = '';
+
+		if ($data) {
+			foreach ($data as $key => $value) {
+				$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
+			}
+
+			if ($query) {
+				$query = '?' . str_replace('&', '&amp;', trim($query, '&'));
+			}
+		}
+		
 		if($this->config->get('config_seo_pro')) {		
 			$condition = ($url !== null);
 		} else {
@@ -158,24 +172,9 @@ class ControllerStartupSeoUrl extends Controller {
 			if($this->config->get('config_seo_pro')){		
 				if($this->config->get('config_page_postfix') && $postfix) {
 					$url .= $this->config->get('config_page_postfix');
-				} elseif($this->config->get('config_seopro_addslash')) {
+				} elseif($this->config->get('config_seopro_addslash') || !empty( $query)) {
 					$url .= '/';
 				} 
-			}
-			
-		//seo_pro add blank url
-			unset($data['route']);
-
-			$query = '';
-
-			if ($data) {
-				foreach ($data as $key => $value) {
-					$query .= '&' . rawurlencode((string)$key) . '=' . rawurlencode((is_array($value) ? http_build_query($value) : (string)$value));
-				}
-
-				if ($query) {
-					$query = '?' . str_replace('&', '&amp;', trim($query, '&'));
-				}
 			}
 
 			return $url_info['scheme'] . '://' . $url_info['host'] . (isset($url_info['port']) ? ':' . $url_info['port'] : '') . str_replace('/index.php', '', $url_info['path']) . $url . $query;
