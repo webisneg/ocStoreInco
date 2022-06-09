@@ -1,6 +1,8 @@
 <?php
 // Version
 define('VERSION', '4.0.0.0');
+define('VERSION_CORE', 'ocStore');
+define('VERSION_BUILD', '0001');
 
 // Configuration
 if (is_file('config.php')) {

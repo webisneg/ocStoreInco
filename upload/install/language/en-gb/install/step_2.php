@@ -32,16 +32,16 @@ $_['text_unwritable']        = 'Unwritable';
 $_['text_missing']           = 'Missing';
 
 // Error
-$_['error_version']          = 'Warning: You need to use PHP8 or above for OpenCart to work!';
+$_['error_version']          = 'Warning: You need to use PHP8 or above for ocStore to work!';
 $_['error_file_upload']      = 'Warning: file_uploads needs to be enabled!';
 $_['error_session']          = 'Warning: OpenCart will not work with session.auto_start enabled!';
 $_['error_db']               = 'Warning: A database extension needs to be loaded in the php.ini for OpenCart to work!';
-$_['error_gd']               = 'Warning: GD extension needs to be loaded for OpenCart to work!';
-$_['error_curl']             = 'Warning: CURL extension needs to be loaded for OpenCart to work!';
+$_['error_gd']               = 'Warning: GD extension needs to be loaded for ocStore to work!';
+$_['error_curl']             = 'Warning: CURL extension needs to be loaded for ocStore to work!';
 $_['error_openssl']          = 'Warning: OpenSSL extension needs to be loaded for OpenCart to work!';
-$_['error_zlib']             = 'Warning: ZLIB extension needs to be loaded for OpenCart to work!';
-$_['error_zip']              = 'Warning: ZIP extension needs to be loaded for OpenCart to work!';
-$_['error_mbstring']         = 'Warning: mbstring extension needs to be loaded for OpenCart to work!';
+$_['error_zlib']             = 'Warning: ZLIB extension needs to be loaded for ocStore to work!';
+$_['error_zip']              = 'Warning: ZIP extension needs to be loaded for ocStore to work!';
+$_['error_mbstring']         = 'Warning: mbstring extension needs to be loaded for ocStore to work!';
 $_['error_catalog_exist']    = 'Warning: config.php does not exist. You need to rename config-dist.php to config.php!';
 $_['error_catalog_writable'] = 'Warning: config.php needs to be writable for OpenCart to be installed!';
 $_['error_admin_exist']      = 'Warning: admin/config.php does not exist. You need to rename admin/config-dist.php to admin/config.php!';

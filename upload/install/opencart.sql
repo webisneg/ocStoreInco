@@ -1352,6 +1352,8 @@ INSERT INTO `oc_information_to_store` (`information_id`, `store_id`) VALUES
 
 INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `sort_order`, `status`) VALUES
 (1, 'English', 'en-gb', 'en-gb,en', 'gb.png', 1, 1);
+(2, 'Українська', 'uk-ua', 'uk-ua,ua', 'ua.png', 2, 1);
+(3, 'Русский', 'ru-ru', 'ru-ru,ru', 'ru.png', 3, 1);
 
 -----------------------------------------------------------
 

@@ -12,6 +12,7 @@ class Step4 extends \Opencart\System\Engine\Controller {
 		$data['text_catalog'] = $this->language->get('text_catalog');
 		$data['text_admin'] = $this->language->get('text_admin');
 		$data['text_extension'] = $this->language->get('text_extension');
+		$data['text_featured'] = $this->language->get('text_featured');
 
 		$data['text_mail'] = $this->language->get('text_mail');
 		$data['text_mail_description'] = $this->language->get('text_mail_description');
@@ -32,11 +33,32 @@ class Step4 extends \Opencart\System\Engine\Controller {
 
 		$data['error_warning'] = $this->language->get('error_warning');
 
-		$data['promotion'] = $this->load->controller('install/promotion');
+		$curl = curl_init();
+
+		curl_setopt($curl, CURLOPT_URL, 'https://ocstore.com/index.php?route=extension/json/extensions&version=' . urlencode(VERSION)."&version=". urlencode($this->config->get('language_code')));
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curl, CURLOPT_HEADER, false);
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+
+		$output = curl_exec($curl);
+
+		if (curl_getinfo($curl, CURLINFO_HTTP_CODE) == 200) {
+			$response = $output;
+		} else {
+			$response = '';
+		}
+
+		curl_close($curl);
+
+		$data['promotion'] = json_decode($response, true);
 
 		$data['footer'] = $this->load->controller('common/footer');
 		$data['header'] = $this->load->controller('common/header');
 
 		$this->response->setOutput($this->load->view('install/step_4', $data));
 	}
+
+
 }
