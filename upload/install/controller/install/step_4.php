@@ -35,7 +35,7 @@ class Step4 extends \Opencart\System\Engine\Controller {
 
 		$curl = curl_init();
 
-		curl_setopt($curl, CURLOPT_URL, 'https://ocstore.com/index.php?route=extension/json/extensions&version=' . urlencode(VERSION)."&version=". urlencode($this->config->get('language_code')));
+		curl_setopt($curl, CURLOPT_URL, 'https://ocstore.com/index.php?route=extension/json/extensions&version=' . urlencode(VERSION)."&lang=". urlencode($this->config->get('language_code')));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);

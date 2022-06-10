@@ -18,6 +18,7 @@ $_['text_forum_visit']            = 'Visit our forums';
 $_['text_commercial']             = 'Commercial support';
 $_['text_commercial_description'] = 'Development services from OpenCart partners';
 $_['text_commercial_visit']       = 'Visit our partner page';
+$_['text_featured']       		  = 'Featured';
 
 // Button
 $_['button_mail']                 = 'Join here';

@@ -930,7 +930,8 @@ INSERT INTO `oc_extension_install` (`extension_install_id`, `extension_id`, `ext
 --
 -- Dumping data for table `oc_extension_path`
 --
-INSERT INTO `oc_extension_path` VALUES (1, 'opencart'),(1, 'opencart/admin'),
+INSERT INTO `oc_extension_path` (`extension_install_id`, `path`) VALUES
+(1, 'opencart'),(1, 'opencart/admin'),
 (1, 'opencart/admin/controller'),
 (1, 'opencart/admin/controller/analytics'),
 (1, 'opencart/admin/controller/analytics/index.html'),
