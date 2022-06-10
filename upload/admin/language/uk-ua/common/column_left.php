@@ -1,7 +1,7 @@
 <?php
 // Text
 $_['text_address_format']      = 'Address Format';
-$_['text_affiliate']                   = 'Партнери';
+$_['text_affiliate']           = 'Партнери';
 $_['text_api']                 = 'API';
 $_['text_attribute']           = 'Атрибути';
 $_['text_attribute_group']     = 'Групи атрибутів';
@@ -39,7 +39,7 @@ $_['text_location']            = 'Місцезнаходження магази�
 $_['text_maintenance']         = 'Maintenance';
 $_['text_manufacturer']        = 'Виробники';
 $_['text_marketing']           = 'Маркетинг';
-$_['text_marketplace']         = 'Marketplace';
+$_['text_marketplace']         = 'Магазин OpenCart.com';
 $_['text_menu']                = 'Менеджер меню';
 $_['text_navigation']          = 'Навігація';
 $_['text_online']              = 'Хто онлайн';
