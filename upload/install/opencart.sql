@@ -1351,8 +1351,8 @@ INSERT INTO `oc_information_to_store` (`information_id`, `store_id`) VALUES
 --
 
 INSERT INTO `oc_language` (`language_id`, `name`, `code`, `locale`, `image`, `sort_order`, `status`) VALUES
-(1, 'English', 'en-gb', 'en-gb,en', 'gb.png', 1, 1);
-(2, 'Українська', 'uk-ua', 'uk-ua,ua', 'ua.png', 2, 1);
+(1, 'English', 'en-gb', 'en-gb,en', 'gb.png', 1, 1),
+(2, 'Українська', 'uk-ua', 'uk-ua,ua', 'ua.png', 2, 1),
 (3, 'Русский', 'ru-ru', 'ru-ru,ru', 'ru.png', 3, 1);
 
 -----------------------------------------------------------
@@ -1939,8 +1939,8 @@ INSERT INTO `oc_setting` (`store_id`, `code`, `key`, `value`, `serialized`) VALU
 (0, 'config', 'config_country_id', '222', 0),
 (0, 'config', 'config_zone_id', '3563', 0),
 (0, 'config', 'config_timezone', 'UTC', 0),
-(0, 'config', 'config_language', 'en-gb', 0),
-(0, 'config', 'config_language_admin', 'en-gb', 0),
+(0, 'config', 'config_language', 'uk-ua', 0),
+(0, 'config', 'config_language_admin', 'uk-ua', 0),
 (0, 'config', 'config_currency', 'USD', 0),
 (0, 'config', 'config_currency_auto', '1', 0),
 (0, 'config', 'config_currency_engine', 'ecb', 0),
